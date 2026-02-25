@@ -26,9 +26,9 @@ const times = [
 ];
 
 
-const targetGroup = process.argv[2] || 'ИСТбд-32';
+const targetGroup = process.argv[2] || process.env.DEFAULT_GROUP;
 const weekIndex = parseInt(process.argv[3]) || 0;
-const targetFaculty = process.argv[4] || 'ФИСТ';
+const targetFaculty = process.argv[4] || process.env.DEFAULT_FACULTY;
 
 // достаем ссылку факультета
 const targetUrl = FACULTY_URLS[targetFaculty];
@@ -94,11 +94,11 @@ const fetchWithAuth = async (url, cookies, userAgent) => {
     return await response.text();
 }
 
-const findMyShedule = async (cookies, userAgent) => {
+const findMySchedule = async (cookies, userAgent) => {
     // загружаем главную страницу
     const mainHtml = await fetchWithAuth(targetUrl, cookies, userAgent);
     
-    // загружаем страемцу в cheerio
+    // загружаем страницу в cheerio
     const $main = cheerio.load(mainHtml);
 
     // находим все теги <a> 
@@ -220,13 +220,13 @@ const findMyShedule = async (cookies, userAgent) => {
     return resultMessage;
 }
 
-let currentCookies = '';
-let currentAgent = '';
-
 const start = async () => {
+    let currentCookies = '';
+    let currentAgent = '';
+    
     const maxAttempts = 3;
     let success = false;
-    let finalShedule = '';
+    let finalSchedule = '';
 
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
         // если куки пустые
@@ -237,7 +237,7 @@ const start = async () => {
         }
 
         try {
-            finalShedule = await findMyShedule(currentCookies, currentAgent);
+            finalSchedule = await findMySchedule(currentCookies, currentAgent);
             success = true;
             break; 
         } catch (error) {
@@ -251,7 +251,7 @@ const start = async () => {
         }
     }
     if (success) {
-        return finalShedule;
+        return finalSchedule;
     } else {
         throw new Error('Не удалось получить расписание после всех попыток.');
     }
