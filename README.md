@@ -24,14 +24,17 @@ npm install
 Создай файл `.env` в корне проекта:
 
 ```env
-LOGIN_URL=https://...       # страница входа
-TIMETABLE_URL=https://...   # страница с расписанием
-FIST=https://...            # ссылка на расписание факультета ФИСТ
-IATU=https://...            # ссылка на расписание факультета ИАТУ
 MY_LOGIN=твой_логин
 MY_PASSWORD=твой_пароль
+
+LOGIN_URL=https://...       # страница входа
+FACUL1=https://...            # ссылка на расписание факультета 1
+FACUL2=https://...            # ссылка на расписание факультета 2
+
+TIMETABLE_URL=https://...   # страница с расписанием
+MY_PASSWORD=твой_пароль
 DEFAULT_GROUP=ГруппаXX
-DEFAULT_FACULTY=ФИСТ
+DEFAULT_FACULTY=''
 ```
 
 ---
